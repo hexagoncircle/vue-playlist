@@ -1,6 +1,6 @@
 <template>
   <div class="track">
-    <a class="track__url" :href="spotifyUrl" target="_blank" :title="`Listen to '${trackName}' on Spotify`">
+    <a class="track__link" :href="spotifyUrl" target="_blank" :title="`Listen to '${trackName}' on Spotify`">
       <img :src="artworkUrl" :alt="album" />
       <div class="track__info">
         <h3 class="track__title">{{trackName}}</h3>

@@ -12,7 +12,7 @@
       <Track v-for="result in results" :result="result" :key="result.id" />
     </div>
 
-    <p v-else>There are no results that match your search.</p>
+    <p v-else>There are no <strong>song titles</strong> that match your current search query.</p>
   </section>
 </template>
 

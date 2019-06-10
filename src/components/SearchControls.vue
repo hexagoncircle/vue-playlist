@@ -18,30 +18,30 @@
 </template>
 
 <script>
-import RadioInput from './RadioInput'
+  import RadioInput from './RadioInput'
 
-export default {
-  name: 'SearchHeader',
+  export default {
+    name: 'SearchHeader',
 
-  components: {
-    RadioInput
-  },
-
-  props: {
-    query: String,
-    sort: String
-  },
-
-  methods: {
-    setSortOption(selected) {
-      this.$emit('change', selected);
+    components: {
+      RadioInput
     },
 
-    updateQuery(event) {
-      this.$emit('input', event.target.value);
-    }
-  },
-}
+    props: {
+      query: String,
+      sort: String
+    },
+
+    methods: {
+      setSortOption(selected) {
+        this.$emit('change', selected);
+      },
+
+      updateQuery(event) {
+        this.$emit('input', event.target.value);
+      }
+    },
+  }
 </script>
 
 <style lang="scss">

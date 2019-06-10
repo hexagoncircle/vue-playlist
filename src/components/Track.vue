@@ -16,35 +16,35 @@
 </template>
 
 <script>
-export default {
-  name: 'Track',
+  export default {
+    name: 'Track',
 
-  props: {
-    result: Object
-  },
-
-  computed: {
-    album() {
-      return this.result.track.album.name;
+    props: {
+      result: Object
     },
 
-    artists() {
-      return this.result.track.artists.map(artist => artist.name).join(',');
-    },
+    computed: {
+      album() {
+        return this.result.track.album.name;
+      },
 
-    artworkUrl() {
-      return this.result.track.album.images[1].url;
-    },
+      artists() {
+        return this.result.track.artists.map(artist => artist.name).join(',');
+      },
 
-    spotifyUrl() {
-      return this.result.track.external_urls.spotify;
-    },
+      artworkUrl() {
+        return this.result.track.album.images[1].url;
+      },
 
-    trackName() {
-      return this.result.track.name;
+      spotifyUrl() {
+        return this.result.track.external_urls.spotify;
+      },
+
+      trackName() {
+        return this.result.track.name;
+      }
     }
   }
-}
 </script>
 
 <style lang="scss">

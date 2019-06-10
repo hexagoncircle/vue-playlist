@@ -17,32 +17,32 @@
 </template>
 
 <script>
-import RadioInput from './RadioInput'
-import Track from './Track'
+  import RadioInput from './RadioInput'
+  import Track from './Track'
 
-export default {
-  name: 'SearchResults',
+  export default {
+    name: 'SearchResults',
 
-  components: {
-    RadioInput,
-    Track
-  },
-
-  props: {
-    error: Boolean,
-    results: Array
-  },
-
-  data() {
-    return {
-      layoutType: 'list'
-    }
-  },
-
-  methods: {
-    setLayoutOption(selected) {
-      this.layoutType = selected;
+    components: {
+      RadioInput,
+      Track
     },
+
+    props: {
+      error: Boolean,
+      results: Array
+    },
+
+    data() {
+      return {
+        layoutType: 'list'
+      }
+    },
+
+    methods: {
+      setLayoutOption(selected) {
+        this.layoutType = selected;
+      },
+    }
   }
-}
 </script>

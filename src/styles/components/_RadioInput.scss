@@ -1,0 +1,39 @@
+/**
+ * components/RadioInput
+ * - styles for radio inputs
+ */
+
+input[type="radio"] {
+  @extend .u-visually-hidden;
+
+  + label {
+    border: 1px solid var(--input-border-color);
+    cursor: pointer;
+    margin-bottom: 0;
+    padding: var(--input-padding);
+    border-radius: var(--input-border-radius);
+    font-weight: bold;
+    margin-bottom: var(--grid-gap);
+    text-align: center;
+  }
+
+  + label:hover {
+    color: var(--input-color-focus);
+    border-color: var(--input-border-color-focus);
+    box-shadow: rgba(black, 0.25) 0 3px 6px -3px;
+  }
+
+  &:checked + label {
+    color: var(--input-color-selected);
+    border-color: var(--input-border-color-selected);
+    box-shadow: none;
+  }
+
+  &:focus + label {
+    color: var(--input-color-focus);
+    border-color: var(--input-border-color-focus);
+    box-shadow:
+      inset white 0 0 0 1px,
+      rgba(black, 0.25) 0 3px 6px -3px;
+  }
+}

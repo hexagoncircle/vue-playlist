@@ -1,0 +1,39 @@
+/**
+ * components/Track
+ * - styles for a single song listing
+ */
+
+.track {
+  padding: var(--spacer) 0;
+  position: relative;
+
+  + .track {
+    border-top: 1px solid var(--color-accent);
+  }
+
+  img {
+    max-width: 72px;
+    width: 100%;
+  }
+}
+
+.track__info {
+  padding: 0 var(--spacer);
+}
+
+.track__title {
+  margin-bottom: calc(var(--spacer) / 2);
+}
+
+.track__url {
+  align-items: flex-start;
+  display: flex;
+  color: var(--color-black);
+  text-decoration: none;
+
+  &:hover {
+    .track__title {
+      color: var(--color-secondary);
+    }
+  }
+}

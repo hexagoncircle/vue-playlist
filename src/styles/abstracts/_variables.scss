@@ -1,0 +1,17 @@
+:root {
+  --color-black: #191a1a;
+  --color-accent: lightgray;
+  --color-primary: #2F4155;
+  --color-secondary: mediumseagreen;
+  --color-white: #f5f5f5;
+
+  --base-duration: 500ms;
+  --base-easing: cubic-bezier(0.19, 1, 0.22, 1);
+  --base-max-width: 1000px;
+
+  --spacer: 1rem;
+  --highlight: rgba(255, 255, 255, 0.1);
+  --shadow: rgba(0, 0, 0, 0.075);
+}
+
+$bp-small: 600px;

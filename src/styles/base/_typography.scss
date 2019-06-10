@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,700&display=swap');
+
+:root {
+  --font-primary: 'IBM Plex Sans', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+
+  --text-color: var(--white);
+  --text-font-family: var(--font-primary);
+  --text-font-weight: var(--font-weight-normal);
+  --text-line-height-base: 1.2;
+  --text-scale-ratio: 1.4;
+  --text-size-base: 1em;
+  --text-size-sm: calc(1em / var(--text-scale-ratio));
+  --text-size-md: calc(1em * var(--text-scale-ratio));
+  --text-size-lg: calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio));
+  --text-size-xl: calc(1em * var(--text-scale-ratio) * var(--text-scale-ratio) * var(--text-scale-ratio));
+
+  --heading-font-family: var(--font-primary);
+  --heading-font-weight: var(--font-weight-bold);
+}
+
+body {
+  font-family: var(--text-font-family);
+  font-size: var(--text-size-base);
+  font-weight: var(--text-font-weight);
+  line-height: var(--text-line-height-base);
+}
+
+h1 {
+  font-size: var(--text-size-xl);
+  font-weight: var(--heading-font-weight);
+}
+
+h2 {
+  font-size: var(--text-size-lg);
+  font-weight: var(--heading-font-weight);
+}
+
+h3 {
+  font-size: var(--text-size-md);
+  font-weight: var(--heading-font-weight);
+}
+
+h4 {
+  font-size: var(--text-size-base);
+}
+
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
+ul li {
+  display: block;
+  margin-left: 0;
+
+  &:not(:last-child) {
+    margin-bottom: calc(var(--spacer) / 2);
+  }
+}
+
+.section-heading {
+  margin-bottom: calc(var(--spacer) * 2);
+}

@@ -2,12 +2,13 @@
   <div id="app">
     <header class="u-section-margin">
       <h1 class="section-heading">Music Library Search</h1>
+      <p>Search and sort tracks in a Spotify playlist. Copy a public playlist link from Spotify and paste it in the field below. Click the 'request' button to get the tracks from your playlist.</p>
 
-      <section class="u-section-margin">
+      <section class="u-section-margin playlist-link-controls">
         <label for="playlist-url">Playlist Link:</label>
         <div class="input-group">
           <input id="playlist-url" type="text" v-model="playlist">
-          <button class="btn" id="search-playlist" @click="sendApiRequest">Retrieve Playlist</button>
+          <button class="btn" id="search-playlist" @click="sendApiRequest">Request</button>
         </div>
       </section>
 
@@ -32,6 +33,9 @@
   import SearchResults from './components/SearchResults'
 
   const spotify = new SpotifyWebApi();
+
+  // A new OAuth Token can be generated here if necessary:
+  // - https://developer.spotify.com/console/get-playlist-tracks
   spotify.setAccessToken('BQDg9DN3Y77ab0nS17DGSfEBrGpXMLL6C7C6KH9Ft6K2KQgfDfFCj8cOiOMtRerq7VWafwgEtjA2GKFenEm6a6DSMw0RsYTHw5Lq_1Ds_MJccceQ-D3wPOnuwDzzAhLfMbKAB-zNLdNeU7iM1RmCcN81j74');
 
   export default {
@@ -46,7 +50,7 @@
       return {
         error: false,
         loading: true,
-        playlist: 'https://open.spotify.com/user/hexagoncircle/playlist/3MaP5Qqu7gXpPkW8Fai0NA?si=H1a_TtnsSEyY3SAH-gJdAA',
+        playlist: 'https://open.spotify.com/user/hexagoncircle/playlist/5UuLjMciDTvfc2rCBwHMIT?si=GdX9SO3dRKeNThIpZBDE9A',
         query: '',
         results: [],
         sort: 'default'

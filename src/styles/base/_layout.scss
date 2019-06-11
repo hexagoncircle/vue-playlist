@@ -22,6 +22,19 @@ body {
   }
 }
 
+.playlist-link-controls {
+  .input-group {
+    > * {
+      flex: 0 0 calc(100% - var(--spacer));
+    }
+
+    @media (min-width: $bp-small) {
+      input { flex: 1 0 0px;  }
+      .btn  { flex: 0 0 auto; }
+    }
+  }
+}
+
 .search-results__header {
   margin-bottom: var(--spacer);
 

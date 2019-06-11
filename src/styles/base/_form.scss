@@ -57,6 +57,7 @@ input,
   background-color: var(--btn-bg-color);
   border-color: var(--btn-border-color);
   color: var(--btn-color);
+  cursor: pointer;
   width: auto;
 
   &:focus {

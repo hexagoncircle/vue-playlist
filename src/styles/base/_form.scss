@@ -7,8 +7,15 @@
   --input-bg-color-selected: var(--input-border-color-selected);
   --input-color-focus: var(--input-border-color-focus);
   --input-color-selected: var(--input-border-color-selected);
+
   --label-margin: 0.25rem;
   --legend-margin: calc(var(--label-margin) * 2);
+
+  --btn-bg-color: var(--color-secondary);
+  --btn-bg-color-focus: var(--color-primary);
+  --btn-border-color: var(--color-secondary);
+  --btn-border-color-focus: var(--color-primary);
+  --btn-color: var(--color-white);
 }
 
 label,
@@ -28,7 +35,8 @@ fieldset {
   text-align: left;
 }
 
-input {
+input,
+.btn {
   border: 1px solid var(--input-border-color);
   border-radius: var(--input-border-radius);
   display: block;
@@ -42,6 +50,18 @@ input {
   &:focus {
     border-color: var(--input-border-color-focus);
     box-shadow: rgba(black, 0.25) 0 3px 6px -3px;
+  }
+}
+
+.btn {
+  background-color: var(--btn-bg-color);
+  border-color: var(--btn-border-color);
+  color: var(--btn-color);
+  width: auto;
+
+  &:focus {
+    background-color: var(--btn-bg-color-focus);
+    border-color: var(--btn-border-color-focus);
   }
 }
 

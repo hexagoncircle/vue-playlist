@@ -3,6 +3,14 @@
     <header class="u-section-margin">
       <h1 class="section-heading">Music Library Search</h1>
 
+      <section class="u-section-margin">
+        <label for="playlist-url">Playlist Link:</label>
+        <div class="input-group">
+          <input id="playlist-url" type="text" v-model="playlist">
+          <button class="btn" id="search-playlist" @click="sendApiRequest">Retrieve Playlist</button>
+        </div>
+      </section>
+
       <search-controls
         :sort="sort"
         :query="query"
@@ -24,7 +32,7 @@
   import SearchResults from './components/SearchResults'
 
   const spotify = new SpotifyWebApi();
-  spotify.setAccessToken('BQBBAH1PfWkB744V2JAAkrpJ06oMGPUTEq2COwQkrZ5xQ_X10g4l2y6C7VIya83CKZ_NZLuoDwkrsjqy91HkFoBByT-izuZXtMWCfdPry0UuCHzqg85nsTTC7T56VShmjOgxK_yxXB9jLcMn56f6TKLCpMc');
+  spotify.setAccessToken('BQDg9DN3Y77ab0nS17DGSfEBrGpXMLL6C7C6KH9Ft6K2KQgfDfFCj8cOiOMtRerq7VWafwgEtjA2GKFenEm6a6DSMw0RsYTHw5Lq_1Ds_MJccceQ-D3wPOnuwDzzAhLfMbKAB-zNLdNeU7iM1RmCcN81j74');
 
   export default {
     name: 'app',
@@ -38,6 +46,7 @@
       return {
         error: false,
         loading: true,
+        playlist: 'https://open.spotify.com/user/hexagoncircle/playlist/3MaP5Qqu7gXpPkW8Fai0NA?si=H1a_TtnsSEyY3SAH-gJdAA',
         query: '',
         results: [],
         sort: 'default'
@@ -59,6 +68,21 @@
     },
 
     methods: {
+      getPlaylistId() {
+        const str = 'playlist/';
+        const id = this.playlist.slice(this.playlist.indexOf(str) + str.length).split(/[?#]/)[0];
+        return id;
+      },
+
+      sendApiRequest() {
+        const id = this.getPlaylistId();
+
+        spotify.getPlaylistTracks(id)
+          .then((data) => this.results = data.items.filter(item => item.track.id))
+          .then(() => this.loading = false)
+          .catch(() => this.error = true);
+      },
+
       selectSortOption(selected) {
         this.sort = selected;
       },
@@ -93,10 +117,7 @@
     },
 
     mounted() {
-      spotify.getPlaylistTracks('0WC8l4atIwb1jAosUagBoA')
-        .then((data) => this.results = data.items)
-        .then(() => this.loading = false)
-        .catch(() => this.error = true);
+      this.sendApiRequest();
     },
   }
 </script>

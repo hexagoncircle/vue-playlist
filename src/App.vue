@@ -19,9 +19,12 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import SpotifyWebApi from 'spotify-web-api-js';
   import SearchControls from './components/SearchControls'
   import SearchResults from './components/SearchResults'
+
+  const spotify = new SpotifyWebApi();
+  spotify.setAccessToken('BQBBAH1PfWkB744V2JAAkrpJ06oMGPUTEq2COwQkrZ5xQ_X10g4l2y6C7VIya83CKZ_NZLuoDwkrsjqy91HkFoBByT-izuZXtMWCfdPry0UuCHzqg85nsTTC7T56VShmjOgxK_yxXB9jLcMn56f6TKLCpMc');
 
   export default {
     name: 'app',
@@ -90,9 +93,8 @@
     },
 
     mounted() {
-      axios
-        .get(`playlist.json`)
-        .then(response => this.results = response.data.tracks.items)
+      spotify.getPlaylistTracks('0WC8l4atIwb1jAosUagBoA')
+        .then((data) => this.results = data.items)
         .then(() => this.loading = false)
         .catch(() => this.error = true);
     },

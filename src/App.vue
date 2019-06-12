@@ -2,17 +2,24 @@
   <div id="app">
     <header class="u-section-margin">
       <h1 class="section-heading">Music Library Search</h1>
-      <p>Search and sort tracks in a Spotify playlist. Copy a public playlist link from Spotify and paste it in the field below. Click the 'request' button to get the tracks from your playlist.</p>
 
-      <section class="u-section-margin playlist-link-controls">
-        <label for="playlist-url">Playlist Link:</label>
-        <div class="input-group">
-          <input id="playlist-url" type="text" v-model="playlist">
-          <button class="btn" id="search-playlist" @click="sendApiRequest">Request</button>
-        </div>
-      </section>
+      <div v-if="!api.token" class="u-section-margin u-vertical-rhythm">
+        <p>You will need to allow this app access to your collaborative playlists to get started.</p>
+        <button class="btn" @click="authenticateUser">Authenticate app</button>
+      </div>
 
-      <search-controls
+      <div v-else>
+        <p>Search and sort tracks in a Spotify playlist. Copy a public playlist link from Spotify and paste it in the field below. Click the 'request' button to get the tracks from your playlist.</p>
+        <section class="u-section-margin u-vertical-rhythm playlist-link-controls">
+          <label for="playlist-url">Playlist Link: <a :href="playlistLink">{{playlistName}}</a></label>
+          <div class="input-group">
+            <input id="playlist-url" type="text" v-model="playlistLink">
+            <button class="btn" id="search-playlist" @click="sendApiRequest">Request</button>
+          </div>
+        </section>
+      </div>
+
+      <search-controls v-if="api.token"
         :sort="sort"
         :query="query"
         @change="selectSortOption"
@@ -20,23 +27,16 @@
       />
     </header>
 
-    <main class="u-section-margin">
-      <h2 class="loader-heading" v-if="loading">Loading results...</h2>
+    <main v-if="api.token" class="u-section-margin">
+      <h2 v-if="loading" class="loader-heading">Loading results...</h2>
       <SearchResults v-else :results="filteredResults" :error="error" />
     </main>
   </div>
 </template>
 
 <script>
-  import SpotifyWebApi from 'spotify-web-api-js';
   import SearchControls from './components/SearchControls'
   import SearchResults from './components/SearchResults'
-
-  const spotify = new SpotifyWebApi();
-
-  // A new OAuth Token can be generated here if necessary:
-  // - https://developer.spotify.com/console/get-playlist-tracks
-  spotify.setAccessToken('BQDg9DN3Y77ab0nS17DGSfEBrGpXMLL6C7C6KH9Ft6K2KQgfDfFCj8cOiOMtRerq7VWafwgEtjA2GKFenEm6a6DSMw0RsYTHw5Lq_1Ds_MJccceQ-D3wPOnuwDzzAhLfMbKAB-zNLdNeU7iM1RmCcN81j74');
 
   export default {
     name: 'app',
@@ -48,9 +48,16 @@
 
     data() {
       return {
+        api: {
+          clientId: process.env.VUE_APP_CLIENT_ID,
+          redirectUri: process.env.VUE_APP_REDIRECT_URI,
+          scopes: 'playlist-read-collaborative',
+          token: ''
+        },
         error: false,
         loading: true,
-        playlist: 'https://open.spotify.com/user/hexagoncircle/playlist/5UuLjMciDTvfc2rCBwHMIT?si=GdX9SO3dRKeNThIpZBDE9A',
+        playlistLink: 'https://open.spotify.com/user/hexagoncircle/playlist/5UuLjMciDTvfc2rCBwHMIT?si=GdX9SO3dRKeNThIpZBDE9A',
+        playlistName: '',
         query: '',
         results: [],
         sort: 'default'
@@ -72,19 +79,36 @@
     },
 
     methods: {
+      authenticateUser() {
+        let popup = window.open(`https://accounts.spotify.com/authorize?client_id=${this.api.clientId}&response_type=token&redirect_uri=${this.api.redirectUri}&scope=${this.api.scopes}&show_dialog=true`, 'Login with Spotify', 'width=800,height=600')
+
+        window.spotifyCallback = (payload) => {
+          this.api.token = payload;
+          this.sendApiRequest();
+          popup.close();
+        }
+      },
+
       getPlaylistId() {
         const str = 'playlist/';
-        const id = this.playlist.slice(this.playlist.indexOf(str) + str.length).split(/[?#]/)[0];
+        const id = this.playlistLink.slice(this.playlistLink.indexOf(str) + str.length).split(/[?#]/)[0];
         return id;
       },
 
       sendApiRequest() {
         const id = this.getPlaylistId();
+        const url = `https://api.spotify.com/v1/playlists/${id}`;
 
-        spotify.getPlaylistTracks(id)
-          .then((data) => this.results = data.items.filter(item => item.track.id))
-          .then(() => this.loading = false)
-          .catch(() => this.error = true);
+        fetch(url, {
+          headers: { 'Authorization': `Bearer ${this.api.token}` }
+        })
+        .then(response => response.json())
+        .then((data) => {
+          this.playlistName = data.name;
+          this.results = data.tracks.items.filter(item => item.track.id);
+        })
+        .finally(() => this.loading = false)
+        .catch(() => this.error = true);
       },
 
       selectSortOption(selected) {
@@ -121,7 +145,8 @@
     },
 
     mounted() {
-      this.sendApiRequest();
+      this.api.token = window.location.hash.substr(1).split('&')[0].split("=")[1];
+      if (this.api.token) window.opener.spotifyCallback(this.api.token);
     },
   }
 </script>

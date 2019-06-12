@@ -12,3 +12,7 @@
 .u-section-margin {
   margin: calc(var(--spacer) * 2) 0;
 }
+
+.u-vertical-rhythm > * + * {
+  margin-top: var(--spacer);
+}

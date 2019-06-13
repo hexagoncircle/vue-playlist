@@ -11,10 +11,10 @@
       <div v-else>
         <p>Search and sort tracks in a Spotify playlist. Copy a public playlist link from Spotify and paste it in the field below. Click the 'request' button to get the tracks from your playlist.</p>
         <section class="u-section-margin u-vertical-rhythm playlist-link-controls">
-          <label for="playlist-url">Playlist Link: <a :href="playlistLink">{{playlistName}}</a></label>
+          <label for="playlist-url">Playlist Link:</label>
           <div class="input-group">
-            <input id="playlist-url" type="text" v-model="playlistLink">
-            <button class="btn" id="search-playlist" @click="sendApiRequest">Request</button>
+            <input id="playlist-url" type="text" v-model="playlist.url">
+            <button class="btn" id="search-playlist" @click="getPlaylistTracks">Request</button>
           </div>
         </section>
       </div>
@@ -29,7 +29,11 @@
 
     <main v-if="api.token" class="u-section-margin">
       <h2 v-if="loading" class="loader-heading">Loading results...</h2>
-      <SearchResults v-else :results="filteredResults" :error="error" />
+      <SearchResults
+        v-else
+        :error="error"
+        :results="filteredResults"
+      />
     </main>
   </div>
 </template>
@@ -56,8 +60,9 @@
         },
         error: false,
         loading: true,
-        playlistLink: 'https://open.spotify.com/user/hexagoncircle/playlist/5UuLjMciDTvfc2rCBwHMIT?si=GdX9SO3dRKeNThIpZBDE9A',
-        playlistName: '',
+        playlist: {
+          url: 'https://open.spotify.com/user/hexagoncircle/playlist/6exItsiU4biqMHKss44Eu0?si=6LRQzxZ2QIKSbegBUbtIsQ',
+        },
         query: '',
         results: [],
         sort: 'default'
@@ -84,31 +89,38 @@
 
         window.spotifyCallback = (payload) => {
           this.api.token = payload;
-          this.sendApiRequest();
+          this.getPlaylistTracks();
           popup.close();
         }
       },
 
       getPlaylistId() {
         const str = 'playlist/';
-        const id = this.playlistLink.slice(this.playlistLink.indexOf(str) + str.length).split(/[?#]/)[0];
+        const id = this.playlist.url.slice(this.playlist.url.indexOf(str) + str.length).split(/[?#]/)[0];
         return id;
       },
 
-      sendApiRequest() {
+      getPlaylistTracks() {
         const id = this.getPlaylistId();
-        const url = `https://api.spotify.com/v1/playlists/${id}`;
+        const url = `https://api.spotify.com/v1/playlists/${id}/tracks`;
 
-        fetch(url, {
-          headers: { 'Authorization': `Bearer ${this.api.token}` }
-        })
-        .then(response => response.json())
-        .then((data) => {
-          this.playlistName = data.name;
-          this.results = data.tracks.items.filter(item => item.track.id);
-        })
-        .finally(() => this.loading = false)
-        .catch(() => this.error = true);
+        this.loading = true;
+        this.results = [];
+
+        const fetchData = (url) => {
+          fetch(url, {
+              headers: { 'Authorization': `Bearer ${this.api.token}` }
+            })
+            .then(response => response.json())
+            .then(data => {
+              this.results.push(...data.items.filter(item => item.track.id));
+              if (data.next) fetchData(data.next);
+            })
+            .finally(() => this.loading = false)
+            .catch(() => this.error = true);
+        }
+
+        fetchData(url);
       },
 
       selectSortOption(selected) {
@@ -150,6 +162,3 @@
     },
   }
 </script>
-
-<style>
-</style>

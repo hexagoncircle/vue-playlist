@@ -1,7 +1,7 @@
 <template>
   <section id="search-results">
     <div class="search-results__header">
-      <h2 class="section-heading">Search Results</h2>
+      <h2 class="section-heading">{{resultsTotal}}</h2>
       <div class="input-group">
         <radio-input label="list" name="layout" :value="layoutType" checked @change="setLayoutOption" />
         <radio-input label="grid" name="layout" :value="layoutType" @change="setLayoutOption" />
@@ -30,7 +30,8 @@
 
     props: {
       error: Boolean,
-      results: Array
+      results: Array,
+      total: Number
     },
 
     data() {
@@ -43,6 +44,12 @@
       setLayoutOption(selected) {
         this.layoutType = selected;
       },
+    },
+
+    computed: {
+      resultsTotal() {
+        return this.results.length > 0 ? `${this.results.length} tracks` : 'No results';
+      }
     }
   }
 </script>

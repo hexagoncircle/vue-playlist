@@ -11,7 +11,7 @@
     <div v-if="results.length" class="tracks" :class="`tracks--${layoutType}`">
       <Track v-for="result in results" :result="result" :key="result.id" />
     </div>
-    <p v-else-if="error">Something went wrong while trying to fetch this data. Check the browser console for more information.</p>
+    <p v-else-if="error">Something went wrong while trying to fetch this playlist. Please double check that the playlist url is correct and pubically accessible.</p>
     <p v-else>There are no <strong>song titles</strong> that match your current search query.</p>
   </section>
 </template>

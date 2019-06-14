@@ -4,7 +4,6 @@
  */
 
 .track {
-  padding: var(--spacer) 0;
   position: relative;
 
   + .track {
@@ -27,8 +26,9 @@
 
 .track__link {
   align-items: flex-start;
-  display: flex;
   color: var(--color-black);
+  display: flex;
+  padding: var(--spacer) 0;
   text-decoration: none;
 
   &:hover {

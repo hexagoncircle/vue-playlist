@@ -42,6 +42,7 @@
   import Loader from './components/Loader'
   import SearchControls from './components/SearchControls'
   import SearchResults from './components/SearchResults'
+  import SpotifyAuth from './api/SpotifyAuth'
 
   export default {
     name: 'app',
@@ -87,12 +88,12 @@
 
     methods: {
       authenticateUser() {
-        let popup = window.open(`https://accounts.spotify.com/authorize?client_id=${this.api.clientId}&response_type=token&redirect_uri=${this.api.redirectUri}&scope=${this.api.scopes}&show_dialog=true`, 'Login with Spotify', 'width=800,height=600')
+        let popup = SpotifyAuth.login(this.api);
 
-        window.spotifyCallback = (payload) => {
-          this.api.token = payload;
-          this.getPlaylistTracks();
+        window.setToken = (token) => {
           popup.close();
+          this.api.token = token;
+          this.getPlaylistTracks();
         }
       },
 
@@ -164,7 +165,7 @@
 
     mounted() {
       this.api.token = window.location.hash.substr(1).split('&')[0].split("=")[1];
-      if (this.api.token) window.opener.spotifyCallback(this.api.token);
+      if (this.api.token) window.opener.setToken(this.api.token);
     },
   }
 </script>

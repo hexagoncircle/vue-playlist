@@ -94,6 +94,10 @@ body {
       width: 100%;
     }
 
+    .track__link {
+      padding: 0;
+    }
+
     &:hover {
       .track__info {
         opacity: 1;

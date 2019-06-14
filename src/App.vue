@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header class="u-section-margin">
-      <h1 class="section-heading">Music Library Search</h1>
+      <h1 class="section-heading">Playlist Search</h1>
 
       <div v-if="!api.token" class="u-section-margin u-vertical-rhythm">
         <p>You will need to allow this app access to your collaborative playlists to get started.</p>
@@ -28,7 +28,7 @@
     </header>
 
     <main v-if="api.token" class="u-section-margin">
-      <h2 v-if="loading" class="loader-heading">Loading results...</h2>
+      <loader v-if="loading" title="Loading tracks" />
       <SearchResults
         v-else
         :error="error"
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+  import Loader from './components/Loader'
   import SearchControls from './components/SearchControls'
   import SearchResults from './components/SearchResults'
 
@@ -46,6 +47,7 @@
     name: 'app',
 
     components: {
+      Loader,
       SearchControls,
       SearchResults
     },
@@ -114,10 +116,14 @@
             .then(response => response.json())
             .then(data => {
               this.results.push(...data.items.filter(item => item.track.id));
+
               if (data.next) fetchData(data.next);
+              else this.loading = false;
             })
-            .finally(() => this.loading = false)
-            .catch(() => this.error = true);
+            .catch(() => {
+              this.error = true;
+              this.loading = false;
+            });
         }
 
         fetchData(url);

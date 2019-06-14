@@ -18,6 +18,7 @@
 
   --heading-font-family: var(--font-primary);
   --heading-font-weight: var(--font-weight-bold);
+  --heading-line-height: 1.2;
 }
 
 body {
@@ -30,16 +31,19 @@ body {
 h1 {
   font-size: var(--text-size-xl);
   font-weight: var(--heading-font-weight);
+  line-height: var(--heading-line-height);
 }
 
 h2 {
   font-size: var(--text-size-lg);
   font-weight: var(--heading-font-weight);
+  line-height: var(--heading-line-height);
 }
 
 h3 {
   font-size: var(--text-size-md);
   font-weight: var(--heading-font-weight);
+  line-height: var(--heading-line-height);
 }
 
 h4, p {

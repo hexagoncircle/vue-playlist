@@ -1,0 +1,43 @@
+.loader {
+  --loader-speed: 600ms;
+  --loader-size: 0.25em;
+}
+
+.loader {
+  align-items: center;
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+}
+
+.loader__text {
+  flex: 1 0 100%;
+  font-weight: var(--font-weight-bold);
+  margin-top: calc(var(--loader-size) * 3);
+}
+
+.loader__bar {
+  animation: loaderStretch var(--loader-speed) infinite ease-in-out;
+  background: var(--color-black);
+  display: block;
+  height: var(--loader-size);
+  margin: calc(var(--loader-size) / 4);
+  width: var(--loader-size);
+
+  @for $i from 1 through 6 {
+    &:nth-child(#{$i}) {
+      animation-delay: $i * -100ms;
+    }
+  }
+}
+
+@keyframes loaderStretch {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  40% {
+    transform: scaleY(4);
+  }
+}

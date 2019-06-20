@@ -8,9 +8,9 @@ module.exports = {
   },
   devServer: {
     https: {
-      key: '192.168.0.2+1-key.pem',
-      cert: '192.168.0.2+1.pem',
-      ca: '192.168.0.2+1.pem',
+      key: process.env.VUE_APP_LOCAL_KEY,
+      cert: process.env.VUE_APP_LOCAL_CERT,
+      ca: process.env.VUE_APP_LOCAL_CA,
     }
   },
   publicPath: process.env.NODE_ENV === 'production'

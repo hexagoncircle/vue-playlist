@@ -2,7 +2,7 @@
 
 This track list can be sorted by title, artist, or album. A user can also enter text to search this list by song title. A [personal playlist](https://open.spotify.com/user/hexagoncircle/playlist/5UuLjMciDTvfc2rCBwHMIT?si=KJbnDgcJRSy1iZjO2c4WnQ) JSON object was exported from [developer.spotify.com](https://developer.spotify.com/console/get-playlist) for this prototype.
 
-Prototype: [hexagoncircle.com/vue-playlist](https://hexagoncircle.com/vue-playlist/)
+Prototype: [hexagoncircle.github.io/vue-playlist](https://hexagoncircle.github.io/vue-playlist/)
 
 ## Project setup
 ```
